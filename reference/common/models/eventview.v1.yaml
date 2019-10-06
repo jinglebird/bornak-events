@@ -1,0 +1,11 @@
+title: EventView
+type: object
+properties:
+  id:
+    type: string
+  event_id:
+    type: integer
+  user_id:
+    type: integer
+  device_type:
+    type: string

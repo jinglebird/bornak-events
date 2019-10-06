@@ -1,0 +1,43 @@
+title: club
+type: object
+description: ''
+properties:
+  id:
+    type: integer
+  name:
+    type: string
+  location:
+    type:
+      - array
+      - integer
+    items: {}
+  email:
+    type: string
+  website:
+    type: string
+  phones:
+    type:
+      - array
+      - string
+    items: {}
+  photos:
+    type:
+      - array
+      - integer
+    items: {}
+  icon:
+    type: string
+  banner:
+    type: string
+  info1:
+    type: string
+  info2:
+    type: string
+  info3:
+    type: string
+  facebook:
+    type: string
+  instagram:
+    type: string
+  admin_id:
+    $ref: ./admin.v1.yaml

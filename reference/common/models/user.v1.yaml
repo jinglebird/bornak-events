@@ -1,0 +1,21 @@
+title: User
+type: object
+properties:
+  id:
+    type: integer
+  username:
+    type: string
+  name:
+    type: string
+  surname:
+    type: string
+  email:
+    type: string
+  google-login-id:
+    type: string
+  facebook_login_id:
+    type: string
+  password_hash:
+    type: string
+  password_salt:
+    type: string

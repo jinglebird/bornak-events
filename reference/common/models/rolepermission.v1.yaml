@@ -1,0 +1,9 @@
+title: RolePermission
+type: object
+properties:
+  id:
+    type: string
+  role_id:
+    $ref: ./role.v1.yaml
+  permission_id:
+    $ref: ./permission.v1.yaml

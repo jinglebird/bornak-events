@@ -1,0 +1,11 @@
+title: ClubView
+type: object
+properties:
+  id:
+    type: string
+  club_id:
+    type: integer
+  user_id:
+    type: integer
+  device_type:
+    type: string

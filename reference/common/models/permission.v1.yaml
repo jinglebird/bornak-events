@@ -1,0 +1,13 @@
+title: permission
+type: object
+properties:
+  id:
+    type: string
+  name:
+    type: string
+  type:
+    oneOf:
+      - items: {}
+    type:
+      - array
+      - string

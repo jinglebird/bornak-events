@@ -1,0 +1,14 @@
+title: static
+type: object
+properties:
+  id:
+    type: string
+  title:
+    type: string
+  content1:
+    type: string
+  content2:
+    type: string
+  banner:
+    type: string
+description: ''

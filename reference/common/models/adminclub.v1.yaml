@@ -1,0 +1,9 @@
+title: AdminClub
+type: object
+properties:
+  id:
+    type: string
+  admin_id:
+    $ref: ./admin.v1.yaml
+  club_id:
+    $ref: ./club.v1.yaml

@@ -1,0 +1,735 @@
+openapi: 3.0.0
+info:
+  title: events list
+  version: '1.0'
+  description: ''
+servers:
+  - url: 'http://localhost:3000/bornak'
+paths:
+  /events:
+    parameters: []
+    get:
+      summary: events list endpoint
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  my-events:
+                    type: array
+                    description: list of users favorited events
+                    items:
+                      $ref: ../common/models/event.v1.yaml
+                  top-events:
+                    type:
+                      - string
+                      - array
+                    items:
+                      $ref: ../common/models/event.v1.yaml
+                  all-events:
+                    type:
+                      - string
+                      - array
+                    items:
+                      $ref: ../common/models/event.v1.yaml
+                  clubs:
+                    type:
+                      - string
+                      - array
+                    items:
+                      $ref: ../common/models/club.v1.yaml
+              examples: {}
+      parameters:
+        - schema:
+            type: number
+          in: query
+          name: lat
+        - schema:
+            type: number
+          in: query
+          name: lng
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+      description: "if lat/lng were not povided the default lat lng would ausgburg's lat/lng"
+  '/event/{event-id}':
+    parameters:
+      - schema:
+          type: string
+        name: event-id
+        in: path
+        required: true
+    get:
+      summary: event detail endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  event:
+                    $ref: ../common/models/event.v1.yaml
+                  more-events:
+                    type: array
+                    description: 'events that has not been expired yet!'
+                    items:
+                      $ref: ../common/models/event.v1.yaml
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+    put:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../common/models/event.v1.yaml
+        description: ''
+  /event/reserve:
+    get:
+      summary: ''
+      tags: []
+      responses: {}
+    post:
+      summary: reserve event endpoint
+      responses:
+        '200':
+          description: OK
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                event_id:
+                  type: integer
+                name:
+                  type: string
+                surname:
+                  type: string
+                mobile:
+                  type: string
+                birthdate:
+                  type: string
+                number_of_people:
+                  type: number
+                email:
+                  type: string
+                message:
+                  type: string
+        description: ''
+      description: after sending this request an authomated email should be sent to user and thank him/her for reservation
+  '/club/{club-id}':
+    parameters:
+      - type: string
+        name: club-id
+        in: path
+        required: true
+    get:
+      summary: club detail endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  club:
+                    $ref: ../common/models/club.v1.yaml
+                  more_events:
+                    type: array
+                    description: events that has not been expired yet on the same club
+                    items:
+                      $ref: ../common/models/event.v1.yaml
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+    put:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../common/models/club.v1.yaml
+  /search:
+    get:
+      summary: ''
+      tags: []
+      responses: {}
+    post:
+      summary: search events endpoint
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  events:
+                    type: array
+                    items:
+                      $ref: ../common/models/event.v1.yaml
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                city:
+                  type: integer
+                distance:
+                  type: number
+                  description: km
+                date:
+                  type: string
+  /event/like:
+    get:
+      summary: ''
+      tags: []
+      responses: {}
+    post:
+      summary: like event endpoint
+      responses:
+        '200':
+          description: OK
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                event_id:
+                  type: integer
+    parameters: []
+  /event/dislike:
+    get:
+      summary: ''
+      tags: []
+      responses: {}
+    post:
+      summary: dislike event endpoint
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                event_id:
+                  type: integer
+  /club/like:
+    get:
+      summary: ''
+      tags: []
+      responses: {}
+    post:
+      summary: like club endpoint
+      responses:
+        '200':
+          description: OK
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                club_id:
+                  type: integer
+  /club/dislike:
+    get:
+      summary: dislike club endpoint
+      tags: []
+      responses: {}
+      parameters: []
+      requestBody: {}
+    post:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                club-id:
+                  type: integer
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+  /cities:
+    get:
+      summary: cities list endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+                  active:
+                    type: integer
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+      description: this api only returns citis that has events
+  /auth/login:
+    get:
+      summary: ''
+      tags: []
+      responses: {}
+    post:
+      summary: login endpoint
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  email:
+                    type: string
+                  external_type:
+                    oneOf:
+                      - items: {}
+                    type:
+                      - array
+                      - integer
+                  external_id:
+                    type: string
+                  password:
+                    type: string
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+      requestBody:
+        description: ''
+  /auth/register:
+    get:
+      summary: ''
+      tags: []
+      responses: {}
+    post:
+      summary: register endpoint
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                external_id:
+                  type: string
+                external_type:
+                  type: string
+                password:
+                  type: string
+                repeat_password:
+                  type: string
+  /admin/pre-register:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+    post:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+      description: after registering an autumated email will send to admin to verify the activation link
+    parameters: []
+  /admin/verify-email:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+    post:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                verify_token:
+                  type: string
+      description: after verifying and email will be sent to admin that his/her account is now activatad
+  /admin/welcome-password:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+    post:
+      summary: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                password_repeat:
+                  type: string
+        description: ''
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+      description: admins after vefitying their email should chouse an passwoed before anything
+  /event/add:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+    post:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../common/models/event.v1.yaml
+  /events-admin:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                events:
+                  type: array
+                  items:
+                    $ref: ../common/models/event.v1.yaml
+                events-view:
+                  type: number
+        description: this api should reconsider
+  /clubs:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                clubs:
+                  type: array
+                  items:
+                    $ref: ../common/models/club.v1.yaml
+                clubs-view:
+                  type: integer
+        description: this api needs reconsider
+  /event-view:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+    post:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                event-id:
+                  type: integer
+  /club-view:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+    post:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                club-view:
+                  type: integer
+        description: ''
+  /static-pages:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pages:
+                    type: array
+                    items:
+                      $ref: ../common/models/static.v1.yaml
+      description: ''
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+    post:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../common/models/static.v1.yaml
+        description: ''
+  '/static-pages/{static-pages-id}':
+    parameters:
+      - type: string
+        name: static-pages-id
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+    put:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: ../common/models/static.v1.yaml
+  /upload:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+    post:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  url:
+                    type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+  /auth/forget-password:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+    post:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+  /auth/regain-password:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+    post:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                password:
+                  type: string
+                repeat-password:
+                  type: string
+  /auth/change-password:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      parameters: []
+    post:
+      summary: ''
+      responses:
+        '200':
+          description: OK
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                previous_password:
+                  type: string
+                passsword:
+                  type: string
+                repeat_password:
+                  type: string
+        description: ''
+components:
+  schemas: {}

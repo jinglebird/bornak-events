@@ -1,0 +1,28 @@
+title: event
+type: object
+description: ''
+properties:
+  id:
+    type: integer
+  name:
+    type: string
+  description:
+    type: string
+  photos:
+    type:
+      - array
+      - string
+    items: {}
+  organizer:
+    $ref: ./club.v1.yaml
+  location:
+    type:
+      - array
+      - integer
+    items: {}
+  banner:
+    type: string
+  active:
+    type: integer
+  reserve-email:
+    type: string

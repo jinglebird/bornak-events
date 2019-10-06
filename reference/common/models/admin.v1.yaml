@@ -1,0 +1,24 @@
+title: Admin
+type: object
+properties:
+  id:
+    type: string
+  email:
+    type: string
+  name:
+    type: string
+  surname:
+    type: string
+  password_hash:
+    type: string
+  password_salt:
+    type: string
+  active:
+    type: integer
+  role_id:
+    type: integer
+  status:
+    oneOf:
+      - items:
+          type: string
+    type: array
